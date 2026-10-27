@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Book Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Library Book Tracker</h1>
+        <p>Manage your library books easily.</p>
+
+        <form id="bookForm">
+            <input type="text" id="bookName"
+                   placeholder="Enter book name" required>
+
+            <input type="text" id="authorName"
+                   placeholder="Enter author name" required>
+
+            <button type="submit">Add Book</button>
+        </form>
+
+        <h2>Available Books</h2>
+        <ul id="bookList"></ul>
+        <p id="emptyMessage">No books added yet.</p>
+    </div>
+
+    <script>
+        const form = document.getElementById("bookForm");
+        const bookList = document.getElementById("bookList");
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const bookName =
+                document.getElementById("bookName").value.trim();
+            const authorName =
+                document.getElementById("authorName").value.trim();
+
+            if (!bookName || !authorName) {
+                return;
+            }
+
+            const item = document.createElement("li");
+            const details = document.createElement("span");
+            details.textContent = bookName + " — " + authorName;
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "delete-btn";
+
+            deleteButton.addEventListener("click", function() {
+                item.remove();
+                emptyMessage.style.display =
+                    bookList.children.length === 0 ? "block" : "none";
+            });
+
+            item.appendChild(details);
+            item.appendChild(deleteButton);
+            bookList.appendChild(item);
+
+            emptyMessage.style.display = "none";
+            form.reset();
+        });
+    </script>
+
+</body>
+</html>
